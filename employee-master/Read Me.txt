@@ -1,0 +1,67 @@
+README for Database Configuration
+
+Overview
+
+The db.config.js file contains the configuration settings for the PostgreSQL database used in the project. This configuration is crucial for establishing a connection to the database and managing connection pooling.
+Configuration Details
+
+HOST: The hostname where the PostgreSQL server is running. In this case, it's set to localhost.
+USER: The username used to authenticate with PostgreSQL. Here, it's postgres.
+PASSWORD: The password for the PostgreSQL user. For this setup, it's ash.
+DB: The name of the database to connect to, which is KTT.
+dialect: The type of SQL database, here it's postgres.
+pool: Connection pool settings to manage the database connections.
+max: Maximum number of connections in the pool (5).
+min: Minimum number of connections in the pool (0).
+acquire: The maximum time, in milliseconds, that pool will try to get a connection before throwing an error (30000 ms).
+idle: The maximum time, in milliseconds, that a connection can be idle before being released (10000 ms).
+
+Usage
+
+This configuration is imported and used in the Sequelize setup to connect to the PostgreSQL database, as shown in the project's model initialization file.
+
+File Location
+employee-master/app/config/db.config.js
+
+Note
+Ensure that the PostgreSQL service is running on the specified host and that the credentials provided are correct to avoid connection issues. Adjust the pool settings based on your application's expected database load and environment.
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Please use the below query to create the database and table in PostgreSQL
+
+CREATE DATABASE KTT;
+
+CREATE TABLE IF NOT EXISTS public.employees
+(
+    id integer NOT NULL DEFAULT nextval('employees_id_seq'::regclass),
+    name character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    email character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    is_active boolean DEFAULT true,
+    date_of_birth date,
+    department character varying(100) COLLATE pg_catalog."default",
+    "position" character varying(100) COLLATE pg_catalog."default",
+    salary numeric(10,2),
+    hire_date date,
+    address character varying(255) COLLATE pg_catalog."default",
+    city character varying(100) COLLATE pg_catalog."default",
+    state character varying(50) COLLATE pg_catalog."default",
+    country character varying(100) COLLATE pg_catalog."default",
+    postal_code character varying(20) COLLATE pg_catalog."default",
+    phone character varying(20) COLLATE pg_catalog."default",
+    CONSTRAINT employees_pkey PRIMARY KEY (id),
+    CONSTRAINT employees_email_key UNIQUE (email)
+)
+
+
+INSERT INTO public.employees(
+    id, name, email, is_active, date_of_birth, department, "position", salary, hire_date, address, city, state, country, postal_code, phone)
+VALUES 
+    (1, 'John Doe', 'john.doe@example.com', TRUE, '1985-07-12', 'Engineering', 'Software Engineer', 85000, '2022-03-15', '1234 Elm St', 'Somewhere', 'CA', 'USA', '90210', '555-1234'),
+    (2, 'Jane Smith', 'jane.smith@example.com', FALSE, '1990-11-30', 'Marketing', 'Marketing Director', 95000, '2021-06-20', '5678 Oak St', 'Anywhere', 'NY', 'USA', '10001', '555-5678'),
+    (3, 'Alice Johnson', 'alice.johnson@example.com', TRUE, '1982-02-28', 'Sales', 'Sales Manager', 75000, '2023-01-10', '91011 Pine St', 'Everywhere', 'TX', 'USA', '73301', '555-9101'),
+    (4, 'Bob Brown', 'bob.brown@example.com', TRUE, '1975-09-16', 'Human Resources', 'HR Coordinator', 64000, '2019-08-25', '1213 Maple St', 'Nowhere', 'FL', 'USA', '33101', '555-1213'),
+    (5, 'Carol White', 'carol.white@example.com', TRUE, '1988-04-04', 'Product', 'Product Manager', 87000, '2020-12-05', '1415 Cedar St', 'Lost City', 'NV', 'USA', '89501', '555-1415');
+
+
+Please Use the id as user name and the phone number of the employee as password to login to the application.

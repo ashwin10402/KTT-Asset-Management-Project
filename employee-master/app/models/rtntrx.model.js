@@ -40,5 +40,7 @@ module.exports = (sequelize, DataTypes) => {
         timestamps: false
     });
 
+    RtnTrx.sync();
+
     return RtnTrx;
 };

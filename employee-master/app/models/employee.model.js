@@ -58,6 +58,7 @@ module.exports = (sequelize, DataTypes) => {
         timestamps: false       
     });
 
+    Employee.sync();
 
     return Employee;
 };
