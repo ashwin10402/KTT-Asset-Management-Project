@@ -1,0 +1,378 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport', content='width=device-width, initial-scale=1.0')
+  title KTT MRO
+  script(src='https://code.jquery.com/jquery-3.7.1.min.js', integrity='sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=', crossorigin='anonymous')
+  link(rel='stylesheet', type='text/css', href='https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css')
+  link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css', rel='stylesheet')
+  script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js', crossorigin='anonymous')
+  link(rel='stylesheet', href='style.css')
+  script(src='script.js', defer='')
+.border-layout
+  .north
+    | Ashwin - KTT - MRO - 
+    span#employeeName
+    |  (
+    span#employeeId
+    | )
+  .west
+    .sidebar-links
+      a#labor(href='#') Labor Management
+      br
+      a#material(href='#') Material Management
+  #center-up.center
+    ul#myTab.nav.nav-tabs(role='tablist')
+      li.nav-item(role='presentation')
+        button#home-tab.nav-link.active(data-bs-toggle='tab', data-bs-target='#home', type='button', role='tab', aria-controls='home', aria-selected='true') All Employees
+    #myTabContent.tab-content
+      #home.tab-pane.fade.show.active(role='tabpanel', aria-labelledby='home-tab')
+        .grid
+          table#employeeTable.display(style='width:100%')
+            thead
+              tr
+                th ID
+                th Name
+                th Email
+                th Active
+                th Date of Birth
+                th Department
+                th Position
+                th Salary
+                th Hire Date
+                th Address
+                th City
+                th State
+                th Country
+                th Postal Code
+                th Phone
+            tbody
+              // Data will be filled here by DataTables with an AJAX call
+  #center-down.center
+    ul#myTab.nav.nav-tabs(role='tablist')
+      li.nav-item(role='presentation')
+        button#assets-tab.nav-link.active(data-bs-toggle='tab', data-bs-target='#assets', type='button', role='tab', aria-controls='home', aria-selected='true') All Assets
+      li.nav-item(role='presentation')
+        button#asset-category-tab.nav-link(data-bs-toggle='tab', data-bs-target='#assetCategory', type='button', role='tab', aria-controls='assetCategory', aria-selected='false') Asset Category
+      li.nav-item(role='presentation')
+        button#stock-tab.nav-link(data-bs-toggle='tab', data-bs-target='#stock', type='button', role='tab', aria-controls='stock', aria-selected='false') Stock View
+      li.nav-item(role='presentation')
+        button#assigned-assets-tab.nav-link(data-bs-toggle='tab', data-bs-target='#assignedAssets', type='button', role='tab', aria-controls='assignedAssets', aria-selected='false') Issued Assets
+      li.nav-item(role='presentation')
+        button#return-tab.nav-link(data-bs-toggle='tab', data-bs-target='#returnAssets', type='button', role='tab', aria-controls='returnAssets', aria-selected='false') Return
+    #myTabContent.tab-content
+      #assets.tab-pane.fade.show.active(role='tabpanel', aria-labelledby='assets-tab')
+        .grid
+          table#assetsTable.display(style='width:100%')
+            thead
+              tr
+                th ID
+                th Serial Number
+                th Make
+                th Model
+                th Asset Type
+                th Description
+                th Status
+            tbody
+              // Data is loaded here by DataTables
+      // New Tab Pane for Asset Category
+      #assetCategory.tab-pane.fade(role='tabpanel', aria-labelledby='asset-category-tab')
+        table#categoryTable.display(style='width:100%')
+          thead
+            tr
+              th Asset Type
+              th Quantity
+              th Issued Quantity
+              th Available Quantity
+              th Repair Quantity
+      #stock.tab-pane.fade.show(role='tabpanel', aria-labelledby='stock-tab')
+        .grid
+          table#stockTable.display(style='width:100%')
+            thead
+              tr
+                th ID
+                th Serial Number
+                th Make
+                th Model
+                th Asset Type
+                th Description
+            tbody
+              // DataTables will populate data here
+      #assignedAssets.tab-pane.fade(role='tabpanel', aria-labelledby='assigned-assets-tab')
+        table#issuedAssetsTable.display(style='width:100%')
+          thead
+            tr
+              th Employee ID
+              th Asset ID
+              th Transaction ID
+              th Issue Date
+              th Notes
+          tbody
+            // Data will be filled here by DataTables with an AJAX call
+      #returnAssets.tab-pane.fade(role='tabpanel', aria-labelledby='return-tab')
+        table#returnAssetsTable.display(style='width:100%')
+          thead
+            tr
+              th Asset ID
+              th Serial Number
+              th Asset Type
+              th Status
+          tbody
+            // Data will be filled here by DataTables with an AJAX call
+// Bootstrap Modal for editing employee
+#editModal.modal.fade(tabindex='-1', aria-labelledby='editModalLabel', aria-hidden='true')
+  .modal-dialog.modal-lg
+    // Increased modal size for better layout
+    .modal-content
+      .modal-header
+        h5#editModalLabel.modal-title Edit Employee
+        button.btn-close(type='button', data-bs-dismiss='modal', aria-label='Close')
+      .modal-body
+        // Form inside the modal
+        form#editForm
+          // Each div with class "mb-3" represents margin-bottom: 3 for spacing
+          .row
+            .col-md-4.mb-3
+              label.form-label(for='id') ID
+              input#id.form-control(type='text', disabled='')
+            .col-md-4.mb-3
+              label.form-label(for='name') Name
+              input#name.form-control(type='text')
+            .col-md-4.mb-3
+              label.form-label(for='email') Email
+              input#email.form-control(type='email')
+          .row
+            .col-md-4.mb-3
+              label.form-label(for='is_active') Is Active
+              select#is_active.form-control
+                option(value='true') Yes
+                option(value='false') No
+            .col-md-4.mb-3
+              label.form-label(for='date_of_birth') Date of Birth
+              input#date_of_birth.form-control(type='date')
+            .col-md-4.mb-3
+              label.form-label(for='department') Department
+              input#department.form-control(type='text')
+          .row
+            .col-md-4.mb-3
+              label.form-label(for='position') Position
+              input#position.form-control(type='text')
+            .col-md-4.mb-3
+              label.form-label(for='salary') Salary
+              input#salary.form-control(type='number')
+            .col-md-4.mb-3
+              label.form-label(for='hire_date') Hire Date
+              input#hire_date.form-control(type='date')
+          .row
+            .col-md-6.mb-3
+              label.form-label(for='address') Address
+              input#address.form-control(type='text')
+            .col-md-6.mb-3
+              label.form-label(for='city') City
+              input#city.form-control(type='text')
+          .row
+            .col-md-3.mb-3
+              label.form-label(for='state') State
+              input#state.form-control(type='text')
+            .col-md-3.mb-3
+              label.form-label(for='country') Country
+              input#country.form-control(type='text')
+            .col-md-3.mb-3
+              label.form-label(for='postal_code') Postal Code
+              input#postal_code.form-control(type='text')
+            .col-md-3.mb-3
+              label.form-label(for='phone') Phone
+              input#phone.form-control(type='text')
+          button.btn.btn-primary(type='submit') Submit
+// Bootstrap Modal for new employee
+#newModal.modal.fade(tabindex='-1', aria-labelledby='newModalLabel', aria-hidden='true')
+  .modal-dialog.modal-lg
+    // Increased modal size for better layout
+    .modal-content
+      .modal-header
+        h5#newModalLabel.modal-title Add Employee
+        button.btn-close(type='button', data-bs-dismiss='modal', aria-label='Close')
+      .modal-body
+        // Form inside the modal
+        form#employeeForm
+          // Each div with class "mb-3" represents margin-bottom: 3 for spacing
+          .row
+            .col-md-4.mb-3
+              label.form-label(for='id') ID
+              input#newid.form-control(type='text', disabled='')
+            .col-md-4.mb-3
+              label.form-label(for='name') Name
+              input#newname.form-control(type='text')
+            .col-md-4.mb-3
+              label.form-label(for='email') Email
+              input#newemail.form-control(type='email')
+          .row
+            .col-md-4.mb-3
+              label.form-label(for='is_active') Is Active
+              select#newis_active.form-control
+                option(value='true') Yes
+                option(value='false') No
+            .col-md-4.mb-3
+              label.form-label(for='date_of_birth') Date of Birth
+              input#newdate_of_birth.form-control(type='date')
+            .col-md-4.mb-3
+              label.form-label(for='department') Department
+              input#newdepartment.form-control(type='text')
+          .row
+            .col-md-4.mb-3
+              label.form-label(for='position') Position
+              input#newposition.form-control(type='text')
+            .col-md-4.mb-3
+              label.form-label(for='salary') Salary
+              input#newsalary.form-control(type='number')
+            .col-md-4.mb-3
+              label.form-label(for='hire_date') Hire Date
+              input#newhire_date.form-control(type='date')
+          .row
+            .col-md-6.mb-3
+              label.form-label(for='address') Address
+              input#newaddress.form-control(type='text')
+            .col-md-6.mb-3
+              label.form-label(for='city') City
+              input#newcity.form-control(type='text')
+          .row
+            .col-md-3.mb-3
+              label.form-label(for='state') State
+              input#newstate.form-control(type='text')
+            .col-md-3.mb-3
+              label.form-label(for='country') Country
+              input#newcountry.form-control(type='text')
+            .col-md-3.mb-3
+              label.form-label(for='postal_code') Postal Code
+              input#newpostal_code.form-control(type='text')
+            .col-md-3.mb-3
+              label.form-label(for='phone') Phone
+              input#newphone.form-control(type='text')
+          button.btn.btn-primary(type='submit') Submit
+// Bootstrap Modal for new asset
+#newAssetModal.modal.fade(tabindex='-1', aria-labelledby='newAssetModalLabel', aria-hidden='true')
+  .modal-dialog.modal-lg
+    // Increased modal size for better layout
+    .modal-content
+      .modal-header
+        h5#newAssetModalLabel.modal-title Add Asset
+        button.btn-close(type='button', data-bs-dismiss='modal', aria-label='Close')
+      .modal-body
+        // Form inside the modal
+        form#assetForm
+          // Each div with class "mb-3" represents margin-bottom: 3 for spacing
+          .row
+            .col-md-4.mb-3
+              label.form-label(for='assetid') ID
+              input#assetid.form-control(type='text', disabled='')
+            .col-md-4.mb-3
+              label.form-label(for='assetserial') Serial Number
+              input#assetserial.form-control(type='text')
+            .col-md-4.mb-3
+              label.form-label(for='assetmake') Make
+              input#assetmake.form-control(type='text')
+          .row
+            .col-md-4.mb-3
+              label.form-label(for='assetmodel') Model
+              input#assetmodel.form-control(type='text')
+            .col-md-4.mb-3
+              label.form-label(for='assettype') Asset Type
+              input#assettype.form-control(type='assetmodel')
+            .col-md-4.mb-3
+              label.form-label(for='assetDescription') Description
+              input#assetdescription.form-control(type='text')
+          .row
+            .col-md-4.mb-3
+              label.form-label(for='assetstatus') Status
+              select#assetstatus.form-control
+                option(value='Issued') Issued
+                option(value='Available') Available
+                option(value='Repair') Repair
+          button.btn.btn-primary(type='submit') Submit
+// Bootstrap Modal for editing employee
+#editAssetModal.modal.fade(tabindex='-1', aria-labelledby='editAssetModalLabel', aria-hidden='true')
+  .modal-dialog.modal-lg
+    // Increased modal size for better layout
+    .modal-content
+      .modal-header
+        h5#editAssetModalLabel.modal-title Edit Asset
+        button.btn-close(type='button', data-bs-dismiss='modal', aria-label='Close')
+      .modal-body
+        // Form inside the modal
+        form#assetEditForm
+          // Each div with class "mb-3" represents margin-bottom: 3 for spacing
+          .row
+            .col-md-4.mb-3
+              label.form-label(for='editassetid') ID
+              input#editassetid.form-control(type='text', disabled='')
+            .col-md-4.mb-3
+              label.form-label(for='editassetserial') Serial Number
+              input#editassetserial.form-control(type='text')
+            .col-md-4.mb-3
+              label.form-label(for='editassetmake') Make
+              input#editassetmake.form-control(type='text')
+          .row
+            .col-md-4.mb-3
+              label.form-label(for='editassetmodel') Model
+              input#editassetmodel.form-control(type='text')
+            .col-md-4.mb-3
+              label.form-label(for='editassettype') Asset Type
+              input#editassettype.form-control(type='assetmodel')
+            .col-md-4.mb-3
+              label.form-label(for='editassetDescription') Description
+              textarea#editassetdescription.form-control(name='description')
+          .row
+            .col-md-4.mb-3
+              label.form-label(for='editassetstatus') Status
+              select#editassetstatus.form-control
+                option(value='Issued') Issued
+                option(value='Available') Available
+                option(value='Repair') Repair
+          button.btn.btn-primary(type='submit') Submit
+// Bootstrap Modal for displaying employee table
+#employeeTableModal.modal.fade(tabindex='-1', aria-labelledby='employeeTableModalLabel', aria-hidden='true')
+  .modal-dialog.modal-xl
+    // Use modal-xl for larger tables
+    .modal-content(style='width: 1500px;')
+      .modal-header
+        h5#employeeTableModalLabel.modal-title Select Employee
+        button.btn-close(type='button', data-bs-dismiss='modal', aria-label='Close')
+      .modal-body
+        // Employee table from All Employees tab
+        table#employeeTableModalView.display.responsive-table
+          thead
+            tr
+              th ID
+              th Name
+              th Email
+              th Active
+              th Date of Birth
+              th Department
+              th Position
+              th Salary
+              th Hire Date
+              th Address
+              th City
+              th State
+              th Country
+              th Postal Code
+              th Phone
+          tbody
+            // Data will be filled here by DataTables with an AJAX call
+      .modal-footer
+        button.btn.btn-primary(type='button', data-bs-dismiss='modal') OK
+// Bootstrap Modal for displaying Return window
+#returnModal.modal(tabindex='-1')
+  .modal-dialog
+    .modal-content
+      .modal-header
+        h5.modal-title Return Asset
+        button.close(type='button', data-dismiss='modal') &times;
+      .modal-body
+        form#returnForm
+          .form-group
+            label(for='returnReason') Reason for Return:
+            input#returnReason.form-control(type='text', required='')
+          button.btn.btn-primary(type='submit') Submit
+script(type='text/javascript', src='https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js')
+script(src='https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js')

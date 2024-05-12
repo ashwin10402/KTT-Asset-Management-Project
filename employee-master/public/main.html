@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KTT MRO</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="border-layout">
+        <div class="north">Ashwin - KTT - MRO - <span id="employeeName"></span> (<span id="employeeId"></span>)</div>
+        <div class="west">
+            <div class="sidebar-links">
+                <a href="#" id="labor">Labor Management</a><br>
+                <a href="#" id="material">Material Management</a>
+            </div>
+        </div>
+
+        <div class="center" id="center-up">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">All Employees</button>
+                </li>
+                
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    
+                        <div class="grid">
+                            <table id="employeeTable" class="display" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Active</th>
+                                        <th>Date of Birth</th>
+                                        <th>Department</th>
+                                        <th>Position</th>
+                                        <th>Salary</th>
+                                        <th>Hire Date</th>
+                                        <th>Address</th>
+                                        <th>City</th>
+                                        <th>State</th>
+                                        <th>Country</th>
+                                        <th>Postal Code</th>
+                                        <th>Phone</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Data will be filled here by DataTables with an AJAX call -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="center" id="center-down">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="assets-tab" data-bs-toggle="tab" data-bs-target="#assets" type="button" role="tab" aria-controls="home" aria-selected="true">All Assets</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="asset-category-tab" data-bs-toggle="tab" data-bs-target="#assetCategory" type="button" role="tab" aria-controls="assetCategory" aria-selected="false">Asset Category</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="stock-tab" data-bs-toggle="tab" data-bs-target="#stock" type="button" role="tab" aria-controls="stock" aria-selected="false">Stock View</button>
+                    </li>
+                    
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="assigned-assets-tab" data-bs-toggle="tab" data-bs-target="#assignedAssets" type="button" role="tab" aria-controls="assignedAssets" aria-selected="false">Issued Assets</button>
+                    </li>
+
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="return-tab" data-bs-toggle="tab" data-bs-target="#returnAssets" type="button" role="tab" aria-controls="returnAssets" aria-selected="false">Return</button>
+                    </li>
+                </ul>
+            
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="assets" role="tabpanel" aria-labelledby="assets-tab">
+                        <div class="grid">
+                            <table id="assetsTable" class="display" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Serial Number</th>
+                                        <th>Make</th>
+                                        <th>Model</th>
+                                        <th>Asset Type</th>
+                                        <th>Description</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Data is loaded here by DataTables -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- New Tab Pane for Asset Category -->
+                    <div class="tab-pane fade" id="assetCategory" role="tabpanel" aria-labelledby="asset-category-tab">
+                        <table id="categoryTable" class="display" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Asset Type</th>
+                                    <th>Quantity</th>
+                                    <th>Issued Quantity</th>
+                                    <th>Available Quantity</th>
+                                    <th>Repair Quantity</th>
+                                </tr>
+                            </thead>
+                        </table>
+                     </div>
+                     <div class="tab-pane fade show" id="stock" role="tabpanel" aria-labelledby="stock-tab">
+                        <div class="grid">
+                            <table id="stockTable" class="display" style="width:100%">
+                                <thead>
+                                  <tr>
+                                    <th>ID</th>
+                                    <th>Serial Number</th>
+                                    <th>Make</th>
+                                    <th>Model</th>
+                                    <th>Asset Type</th>
+                                    <th>Description</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <!-- DataTables will populate data here -->
+                                </tbody>
+                              </table>
+                              
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="assignedAssets" role="tabpanel" aria-labelledby="assigned-assets-tab">
+                        <table id="issuedAssetsTable" class="display" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Employee ID</th>
+                                    <th>Asset ID</th>
+                                    <th>Transaction ID</th>
+                                    <th>Issue Date</th>
+                                    <th>Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Data will be filled here by DataTables with an AJAX call -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tab-pane fade" id="returnAssets" role="tabpanel" aria-labelledby="return-tab">
+                        <table id="returnAssetsTable" class="display" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Asset ID</th>
+                                    <th>Serial Number</th>
+                                    <th>Asset Type</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Data will be filled here by DataTables with an AJAX call -->
+                            </tbody>
+                        </table>
+                        
+                    </div>
+                   
+                    
+                </div>
+            </div>
+            
+    </div>
+
+            <!-- Bootstrap Modal for editing employee-->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg"> <!-- Increased modal size for better layout -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Employee</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Form inside the modal -->
+                <form id="editForm">
+                    <!-- Each div with class "mb-3" represents margin-bottom: 3 for spacing -->
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="id" class="form-label">ID</label>
+                            <input type="text" class="form-control" id="id" disabled>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email">
+                        </div>
+                    </div>
+        
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="is_active" class="form-label">Is Active</label>
+                            <select class="form-control" id="is_active">
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="date_of_birth" class="form-label">Date of Birth</label>
+                            <input type="date" class="form-control" id="date_of_birth">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="department" class="form-label">Department</label>
+                            <input type="text" class="form-control" id="department">
+                        </div>
+                    </div>
+        
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="position" class="form-label">Position</label>
+                            <input type="text" class="form-control" id="position">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="salary" class="form-label">Salary</label>
+                            <input type="number" class="form-control" id="salary">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="hire_date" class="form-label">Hire Date</label>
+                            <input type="date" class="form-control" id="hire_date">
+                        </div>
+                    </div>
+        
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="address" class="form-label">Address</label>
+                            <input type="text" class="form-control" id="address">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="city" class="form-label">City</label>
+                            <input type="text" class="form-control" id="city">
+                        </div>
+                    </div>
+        
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label for="state" class="form-label">State</label>
+                            <input type="text" class="form-control" id="state">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="country" class="form-label">Country</label>
+                            <input type="text" class="form-control" id="country">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="postal_code" class="form-label">Postal Code</label>
+                            <input type="text" class="form-control" id="postal_code">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="phone" class="form-label">Phone</label>
+                            <input type="text" class="form-control" id="phone">
+                        </div>
+                    </div>
+        
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+
+            <!-- Bootstrap Modal for new employee -->
+    <div class="modal fade" id="newModal" tabindex="-1" aria-labelledby="newModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg"> <!-- Increased modal size for better layout -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newModalLabel">Add Employee</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Form inside the modal -->
+                    <form id="employeeForm">
+                        <!-- Each div with class "mb-3" represents margin-bottom: 3 for spacing -->
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="id" class="form-label">ID</label>
+                                <input type="text" class="form-control" id="newid" disabled>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="newname">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="newemail">
+                            </div>
+                        </div>
+            
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="is_active" class="form-label">Is Active</label>
+                                <select class="form-control" id="newis_active">
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="date_of_birth" class="form-label">Date of Birth</label>
+                                <input type="date" class="form-control" id="newdate_of_birth">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="department" class="form-label">Department</label>
+                                <input type="text" class="form-control" id="newdepartment">
+                            </div>
+                        </div>
+            
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="position" class="form-label">Position</label>
+                                <input type="text" class="form-control" id="newposition">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="salary" class="form-label">Salary</label>
+                                <input type="number" class="form-control" id="newsalary">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="hire_date" class="form-label">Hire Date</label>
+                                <input type="date" class="form-control" id="newhire_date">
+                            </div>
+                        </div>
+            
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="address" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="newaddress">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="city" class="form-label">City</label>
+                                <input type="text" class="form-control" id="newcity">
+                            </div>
+                        </div>
+            
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <label for="state" class="form-label">State</label>
+                                <input type="text" class="form-control" id="newstate">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="country" class="form-label">Country</label>
+                                <input type="text" class="form-control" id="newcountry">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="postal_code" class="form-label">Postal Code</label>
+                                <input type="text" class="form-control" id="newpostal_code">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="phone" class="form-label">Phone</label>
+                                <input type="text" class="form-control" id="newphone">
+                            </div>
+                        </div>
+            
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+            <!-- Bootstrap Modal for new asset -->
+    <div class="modal fade" id="newAssetModal" tabindex="-1" aria-labelledby="newAssetModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg"> <!-- Increased modal size for better layout -->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="newAssetModalLabel">Add Asset</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Form inside the modal -->
+                            <form id="assetForm">
+                                <!-- Each div with class "mb-3" represents margin-bottom: 3 for spacing -->
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label for="assetid" class="form-label">ID</label>
+                                        <input type="text" class="form-control" id="assetid" disabled>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="assetserial" class="form-label">Serial Number</label>
+                                        <input type="text" class="form-control" id="assetserial">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="assetmake" class="form-label">Make</label>
+                                        <input type="text" class="form-control" id="assetmake">
+                                    </div>
+                                </div>
+                    
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label for="assetmodel" class="form-label">Model</label>
+                                        <input type="text" class="form-control" id="assetmodel">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="assettype" class="form-label">Asset Type</label>
+                                        <input type="assetmodel" class="form-control" id="assettype">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="assetDescription" class="form-label">Description</label>
+                                        <input type="text" class="form-control" id="assetdescription">
+                                    </div>
+                                </div>
+                    
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label for="assetstatus" class="form-label">Status</label>
+                                        <select class="form-control" id="assetstatus">
+                                            <option value="Issued">Issued</option>
+                                            <option value="Available">Available</option>
+                                            <option value="Repair">Repair</option>
+                                          </select>
+                                          
+                                    </div>
+                                    
+                                </div>
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+    </div>        
+
+            <!-- Bootstrap Modal for editing employee-->
+    <div class="modal fade" id="editAssetModal" tabindex="-1" aria-labelledby="editAssetModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg"> <!-- Increased modal size for better layout -->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editAssetModalLabel">Edit Asset</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Form inside the modal -->
+                            <form id="assetEditForm">
+                                <!-- Each div with class "mb-3" represents margin-bottom: 3 for spacing -->
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label for="editassetid" class="form-label">ID</label>
+                                        <input type="text" class="form-control" id="editassetid" disabled>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="editassetserial" class="form-label">Serial Number</label>
+                                        <input type="text" class="form-control" id="editassetserial">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="editassetmake" class="form-label">Make</label>
+                                        <input type="text" class="form-control" id="editassetmake">
+                                    </div>
+                                </div>
+                    
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label for="editassetmodel" class="form-label">Model</label>
+                                        <input type="text" class="form-control" id="editassetmodel">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="editassettype" class="form-label">Asset Type</label>
+                                        <input type="assetmodel" class="form-control" id="editassettype">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="editassetDescription" class="form-label">Description</label>
+                                        <textarea class="form-control" id="editassetdescription" name="description"></textarea>
+                                        
+                                    </div>
+                                </div>
+                    
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label for="editassetstatus" class="form-label">Status</label>
+                                        <select class="form-control" id="editassetstatus">
+                                            <option value="Issued">Issued</option>
+                                            <option value="Available">Available</option>
+                                            <option value="Repair">Repair</option>
+                                          </select>
+                                          
+                                    </div>
+                                    
+                                </div>
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+    </div>        
+
+    <!-- Bootstrap Modal for displaying employee table -->
+    <div class="modal fade" id="employeeTableModal" tabindex="-1" aria-labelledby="employeeTableModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl"> <!-- Use modal-xl for larger tables -->
+            <div class="modal-content" style="width: 1500px;">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="employeeTableModalLabel">Select Employee</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Employee table from All Employees tab -->
+                    <table id="employeeTableModalView" class="display responsive-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Active</th>
+                                <th>Date of Birth</th>
+                                <th>Department</th>
+                                <th>Position</th>
+                                <th>Salary</th>
+                                <th>Hire Date</th>
+                                <th>Address</th>
+                                <th>City</th>
+                                <th>State</th>
+                                <th>Country</th>
+                                <th>Postal Code</th>
+                                <th>Phone</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Data will be filled here by DataTables with an AJAX call -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Modal for displaying Return window -->
+    <div class="modal" id="returnModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Return Asset</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="returnForm">
+                        <div class="form-group">
+                            <label for="returnReason">Reason for Return:</label>
+                            <input type="text" class="form-control" id="returnReason" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+           
+    </body>
+   
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    
+
+</body>
+</html>

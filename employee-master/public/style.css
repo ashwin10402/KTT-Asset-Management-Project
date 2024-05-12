@@ -1,0 +1,100 @@
+.border-layout {
+    display: grid;
+    grid-template-areas:
+        "north north"
+        "west center";
+    grid-template-columns: 15vw auto;
+    grid-template-rows: auto 1fr;
+    height: 100vh;
+  }
+  
+  .north {
+    grid-area: north;
+    background: #712bc2;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .west {
+    grid-area: west;
+    background: #8149c2;
+    padding: 10px;
+  }
+  
+  .center {
+    grid-area: center;
+    display: flex; 
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .center-up, .center-down {
+    flex: 1;
+    padding: 10px;
+  }
+  
+  .center-up {
+    background: #eeeeee;
+    padding: 20px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .center-down {
+    
+    background: #f4f4f4;
+  }
+  .sidebar-links {
+    padding: 10px;
+  }
+  
+  .sidebar-links a {
+    display: block; 
+    text-decoration: none; 
+    color: #333;
+    padding: 5px;
+    margin-bottom: 5px;
+    transition: background-color 0.3s; 
+  }
+  
+  .sidebar-links a:hover {
+    background-color: #f0f0f0;
+    color: #000; 
+  }
+  
+  .image-with-text {
+    display: inline-block; 
+    margin: 0 10px; 
+    text-align: center;
+  }
+  
+  .image-with-text img {
+    width: 50px;
+    height: 50px; 
+    display: block;
+    margin-bottom: 5px;
+    margin-left: 10px;
+  }
+  
+  .image-with-text span {
+    font-size: 12px;
+    display: block;
+  }
+  
+  .form-control{
+    width: 100px;
+  }
+  
+  /* Ensure the body and html occupy the full height of the viewport */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.responsive-table {
+    width: 100%;
+    overflow-x: auto; /* Allows table to scroll horizontally if needed */
+}
+  
